@@ -15,21 +15,20 @@ function SideBar() {
         : -1
       : -1
   );
-  const side = document.getElementById("sidebar");
 
   return (
     <>
       <div
         id="sidebar"
-        className="col-span-1 bg-[#f7f1e7] flex"
+        className="col-span-1 bg-[#f7f1e7] flex h-screen"
         ref={sidebarRef}
       >
-        <ul className="border-r border-white p-2 text-center text-gray-400">
+        <ul className="border-r border-white p-1 text-[13px] text-center text-gray-400">
           {alphabet.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
-        <div>
+        <div className="h-screen overflow-auto flex-1">
           {elementsSideBar.map((item) => (
             <div className="flex items-center" key={item.id}>
               <img

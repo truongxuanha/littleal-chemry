@@ -2,11 +2,11 @@ import { useAppContext } from "../../contexts/useAppContext";
 import { useEvent } from "../../contexts/useMouseEvent";
 import data from "../../utils/data";
 function Main() {
-  const { handleMouseDown, isSelect, elementSelect, position } = useEvent();
+  const { handleMouseDown } = useEvent();
   const { elementsMain, elementsSideBar, handleClick } = useAppContext();
   console.log(elementsMain);
   return (
-    <div id="main" className="col-span-3 relative">
+    <div id="main" className="col-span-3 relative h-screen">
       {elementsMain.map((item, index) => (
         <div
           key={index}
