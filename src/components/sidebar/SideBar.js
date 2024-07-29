@@ -6,7 +6,15 @@ function SideBar() {
   const { sidebarRef, elementSelect, isSelect, position, handleMouseDown } =
     useEvent();
   const { elementsSideBar } = useAppContext();
-
+  elementsSideBar.sort((a, b) =>
+    a.title > b.title
+      ? 1
+      : a.title === b.title
+      ? a.title > b.title
+        ? 1
+        : -1
+      : -1
+  );
   return (
     <>
       <div

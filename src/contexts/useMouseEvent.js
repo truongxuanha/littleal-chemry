@@ -50,10 +50,10 @@ function EventProvider({ children }) {
 
       const newData = elementsMain.filter(
         (element) =>
-          element.position.x - 20 <= position.x &&
-          position.x <= element.position.x + 20 &&
-          element.position.y - 20 <= position.y &&
-          position.y <= element.position.y + 20
+          element.position.x - 32 <= position.x &&
+          position.x <= element.position.x + 32 &&
+          element.position.y - 32 <= position.y &&
+          position.y <= element.position.y + 32
       );
 
       setElementIsSelect({ element: elementSelect, position });
@@ -66,7 +66,7 @@ function EventProvider({ children }) {
 
   const handleMouseUp = useCallback(
     (e) => {
-      if (!isSelect) return;
+      if (!isSelect && !draggedElement) return;
 
       const rc = sidebarRef.current.getBoundingClientRect();
 
@@ -77,11 +77,8 @@ function EventProvider({ children }) {
         e.clientY <= rc.bottom
       ) {
         setElementsMain((prev) =>
-          prev.filter((item) => item.idElement !== draggedElement.idElement)
+          prev.filter((item) => item.idElement !== draggedElement?.idElement)
         );
-        if (draggedElement) {
-          setElementsSideBar((prev) => [...prev, draggedElement.element]);
-        }
       } else if (elementSelect && elementSelect.type === "sidebar") {
         const newElementMain = {
           idElement: new Date().toISOString(),
@@ -90,9 +87,9 @@ function EventProvider({ children }) {
         };
         console.log(newElementMain);
         setElementsMain((prev) => [...prev, newElementMain]);
+        checkRecipes();
       }
 
-      checkRecipes();
       setIsSelect(false);
       setElementSelect(null);
       setPosition({ x: 0, y: 0 });
