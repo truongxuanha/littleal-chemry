@@ -13,7 +13,6 @@ function EventProvider({ children }) {
   const {
     setElementsMain,
     elementsMain,
-    setElementsSideBar,
     setElementDuplicate,
     setElementIsSelect,
     checkRecipes,
@@ -27,6 +26,7 @@ function EventProvider({ children }) {
 
   const handleMouseDown = useCallback((item, e, type) => {
     e.preventDefault();
+    console.log(item);
     setIsSelect(true);
     setElementSelect({ ...item, type });
     setDraggedElement(type === "main" ? item : null);
@@ -50,12 +50,12 @@ function EventProvider({ children }) {
 
       const newData = elementsMain.filter(
         (element) =>
-          element.position.x - 32 <= position.x &&
-          position.x <= element.position.x + 32 &&
-          element.position.y - 32 <= position.y &&
-          position.y <= element.position.y + 32
+          element.position.x - 20 <= position.x &&
+          position.x <= element.position.x + 20 &&
+          element.position.y - 20 <= position.y &&
+          position.y <= element.position.y + 20
       );
-
+      console.log(newData);
       setElementIsSelect({ element: elementSelect, position });
       setElementDuplicate(
         newData.length > 0 ? newData[newData.length - 1] : null
@@ -91,7 +91,7 @@ function EventProvider({ children }) {
       checkRecipes();
 
       setIsSelect(false);
-      setElementDuplicate([]);
+      setElementDuplicate(null);
       setElementSelect(null);
       setPosition({ x: 0, y: 0 });
       setDraggedElement(null);
