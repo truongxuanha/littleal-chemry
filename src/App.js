@@ -14,10 +14,10 @@ function App() {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
-      <Suspense fallback={<div>Loading Main...</div>}>
+      <Suspense fallback={<div className="h-screen">Loading Main...</div>}>
         <Main />
       </Suspense>
-      <Suspense fallback={<div>Loading Sidebar...</div>}>
+      <Suspense fallback={<div className="h-screen">Loading Sidebar...</div>}>
         <SideBar />
       </Suspense>
     </div>
