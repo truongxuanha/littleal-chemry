@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import data from "../utils/data";
-import dataCombine from "../utils/dataCombine";
+import recipes from "../utils/recipes";
 
 const AppContext = createContext();
 const dataStart = data.filter((data) => data.id < 5);
@@ -30,15 +30,15 @@ function AppProvider({ children }) {
 
   const checkRecipes = useCallback(() => {
     if (elementDuplicate && elementIsSelect) {
-      console.log(elementIsSelect);
-      console.log(elementDuplicate);
+      // console.log(elementIsSelect);
+      // console.log(elementDuplicate);
       const duplicate = elementDuplicate?.element.title;
       const select = elementIsSelect.element.title
         ? elementIsSelect.element.title
         : elementIsSelect.element.element.title;
       // console.log("duplicate", duplicate);
       // console.log("select", select);
-      const listNewItems = dataCombine.filter(
+      const listNewItems = recipes.filter(
         (title) =>
           (title[0] === duplicate && title[1] === select) ||
           (title[1] === duplicate && title[0] === select)
