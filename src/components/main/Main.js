@@ -2,8 +2,9 @@ import { useAppContext } from "../../contexts/useAppContext";
 import { useEvent } from "../../contexts/useMouseEvent";
 import data from "../../utils/data";
 function Main() {
-  const { handleMouseDown } = useEvent();
+  const { handleMouseDown, isSelect, elementSelect, position } = useEvent();
   const { elementsMain, elementsSideBar, handleClick } = useAppContext();
+  console.log(elementsMain);
   return (
     <div id="main" className="col-span-3 relative">
       {elementsMain.map((item, index) => (
@@ -17,6 +18,7 @@ function Main() {
           }}
         >
           <img
+            className="block w-[74px]"
             src={item.element.url}
             alt=""
             onMouseDown={(e) => handleMouseDown(item, e, "main")}

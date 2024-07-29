@@ -6,3 +6,6 @@ body {
   @apply bg-no-repeat bg-cover h-screen w-screen text-gray-400;
   background-image: url("./assets/bg.png");
 }
+img {
+  max-width: 74px;
+}

@@ -15,6 +15,8 @@ function SideBar() {
         : -1
       : -1
   );
+  const side = document.getElementById("sidebar");
+
   return (
     <>
       <div
