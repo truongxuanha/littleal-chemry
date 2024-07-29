@@ -1,17 +1,25 @@
+import React, { Suspense, lazy } from "react";
 import { useEvent } from "./contexts/useMouseEvent";
-import SideBar from "./components/sidebar/SideBar";
-import Main from "./components/main/Main";
+
+// Lazy load components
+const SideBar = lazy(() => import("./components/sidebar/SideBar"));
+const Main = lazy(() => import("./components/main/Main"));
 
 function App() {
   const { handleMouseMove, handleMouseUp } = useEvent();
+
   return (
     <div
       className="grid grid-cols-4 h-screen"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
-      <Main />
-      <SideBar />
+      <Suspense fallback={<div>Loading Main...</div>}>
+        <Main />
+      </Suspense>
+      <Suspense fallback={<div>Loading Sidebar...</div>}>
+        <SideBar />
+      </Suspense>
     </div>
   );
 }
