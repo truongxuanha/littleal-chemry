@@ -32,7 +32,7 @@ function AppProvider({ children }) {
     if (elementDuplicate && elementIsSelect) {
       // console.log(elementIsSelect);
       // console.log(elementDuplicate);
-      const duplicate = elementDuplicate?.element.title;
+      const duplicate = elementDuplicate?.element?.title;
       const select = elementIsSelect.element.title
         ? elementIsSelect.element.title
         : elementIsSelect.element.element.title;
