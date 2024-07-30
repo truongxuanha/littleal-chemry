@@ -30,6 +30,7 @@ function AppProvider({ children }) {
 
   const checkRecipes = useCallback(() => {
     if (elementDuplicate && elementIsSelect) {
+      console.log(elementIsSelect);
       if (elementDuplicate.idElement === elementIsSelect.element.idElement)
         return;
       console.log(elementIsSelect);

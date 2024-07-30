@@ -1,16 +1,30 @@
 import { useAppContext } from "../../contexts/useAppContext";
 import { useEvent } from "../../contexts/useMouseEvent";
 import data from "../../utils/data";
+import { useState, useEffect } from "react";
+import "./main.css"; // Đảm bảo bạn đã import tệp CSS
+
 function Main() {
   const { handleMouseDown } = useEvent();
   const { elementsMain, elementsSideBar, handleClick } = useAppContext();
-  console.log(elementsMain);
+  const [visibleItems, setVisibleItems] = useState([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisibleItems(elementsMain.map((_, index) => index));
+    }, 100); // Thay đổi thời gian trễ nếu cần
+
+    return () => clearTimeout(timer);
+  }, [elementsMain]);
+
   return (
-    <div id="main" className="col-span-3 relative h-screen">
+    <div id="main" className="col-span-3 relative h-screen overflow-hidden">
       {elementsMain.map((item, index) => (
         <div
           key={index}
-          className="absolute z-50"
+          className={`absolute z-50 fade-in ${
+            visibleItems.includes(index) ? "visible" : ""
+          }`}
           style={{
             left: item.position.x,
             top: item.position.y,
