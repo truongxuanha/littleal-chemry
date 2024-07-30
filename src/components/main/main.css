@@ -6,3 +6,11 @@
 .fade-in.visible {
   opacity: 1;
 }
+.bgNotFull {
+  background-image: url("/src/assets/full.png");
+  background-repeat: no-repeat;
+}
+.bgFull {
+  background-image: url("/src/assets/isfull.png");
+  background-repeat: no-repeat;
+}

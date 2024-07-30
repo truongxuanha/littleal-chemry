@@ -8,7 +8,7 @@ function Main() {
   const { handleMouseDown } = useEvent();
   const { elementsMain, elementsSideBar, handleClick } = useAppContext();
   const [visibleItems, setVisibleItems] = useState([]);
-
+  const [full, setFull] = useState(false);
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisibleItems(elementsMain.map((_, index) => index));
@@ -16,13 +16,20 @@ function Main() {
 
     return () => clearTimeout(timer);
   }, [elementsMain]);
-
+  function handleFullScreen() {
+    setFull((full) => !full);
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen();
+    }
+  }
   return (
     <div id="main" className="col-span-3 relative h-screen overflow-hidden">
       {elementsMain.map((item, index) => (
         <div
           key={index}
-          className={`absolute z-50 fade-in ${
+          className={`absolute z-101 fade-in ${
             visibleItems.includes(index) ? "visible" : ""
           }`}
           style={{
@@ -39,6 +46,12 @@ function Main() {
           />
         </div>
       ))}
+      <div
+        className={` absolute w-7 h-7 cursor-pointer top-3 left-3 ${
+          full ? "bgFull" : "bgNotFull"
+        }`}
+        onClick={() => handleFullScreen()}
+      ></div>
       <div className="absolute left-0 bottom-0 font-semibold text-2xl text-gray-400 p-3">
         {elementsSideBar.length}/{data.length}
       </div>
