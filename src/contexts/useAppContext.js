@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useCallback,
   useContext,
@@ -9,10 +9,12 @@ import data from "../utils/data";
 import recipes from "../utils/recipes";
 
 const AppContext = createContext();
-const dataStart = data.filter((data) => data.id < 5);
+
+const dataStart = data.filter((item) => item.id < 5);
+
 function AppProvider({ children }) {
-  const [elementDuplicate, setElementDuplicate] = useState([]);
-  const [elementIsSelect, setElementIsSelect] = useState({});
+  const [elementDuplicate, setElementDuplicate] = useState(null);
+  const [elementIsSelect, setElementIsSelect] = useState(null);
   const [elementsSideBar, setElementsSideBar] = useState(
     JSON.parse(localStorage.getItem("elementsSideBar")) || dataStart
   );
@@ -30,17 +32,17 @@ function AppProvider({ children }) {
 
   const checkRecipes = useCallback(() => {
     if (elementDuplicate && elementIsSelect) {
-      const duplicate = elementDuplicate?.element?.title;
-      const select = elementIsSelect?.element?.title
-        ? elementIsSelect?.element?.title
-        : elementIsSelect?.element?.element?.title;
+      const duplicateTitle = elementDuplicate.element?.title;
+      const selectTitle =
+        elementIsSelect.element?.title ||
+        elementIsSelect.element?.element?.title;
+
       const listNewItems = recipes.filter(
-        (title) =>
-          (title[0] === duplicate && title[1] === select) ||
-          (title[1] === duplicate && title[0] === select)
+        ([firstTitle, secondTitle]) =>
+          (firstTitle === duplicateTitle && secondTitle === selectTitle) ||
+          (secondTitle === duplicateTitle && firstTitle === selectTitle)
       );
 
-      console.log(listNewItems);
       if (listNewItems.length > 0) {
         const newDataMainSection = elementsMain.filter(
           (element) =>
@@ -48,19 +50,15 @@ function AppProvider({ children }) {
             element.idElement !== elementIsSelect.element.idElement
         );
 
-        listNewItems.forEach((item) => {
-          const createNewItem = data.find((el) => el.title === item[2]);
-          if (createNewItem) {
-            if (
-              !elementsSideBar.find(
-                (item) => item.title === createNewItem.title
-              )
-            ) {
-              setElementsSideBar((prev) => [...prev, createNewItem]);
+        listNewItems.forEach(([_, __, newTitle]) => {
+          const newItem = data.find((item) => item.title === newTitle);
+          if (newItem) {
+            if (!elementsSideBar.some((item) => item.title === newItem.title)) {
+              setElementsSideBar((prev) => [...prev, newItem]);
             }
             newDataMainSection.push({
               idElement: new Date().toISOString(),
-              element: createNewItem,
+              element: newItem,
               position: elementDuplicate.position,
             });
           }
@@ -73,10 +71,10 @@ function AppProvider({ children }) {
     }
   }, [elementDuplicate, elementIsSelect, elementsMain, elementsSideBar]);
 
-  function handleClick() {
+  const handleClick = () => {
     setElementsMain([]);
     setElementsSideBar(dataStart);
-  }
+  };
 
   const value = {
     elementsMain,
@@ -92,9 +90,9 @@ function AppProvider({ children }) {
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 
-const useAppContext = function () {
+const useAppContext = () => {
   const context = useContext(AppContext);
-  if (context === undefined) throw new Error("Not found");
+  if (context === undefined) throw new Error("AppProvider Error");
   return context;
 };
 

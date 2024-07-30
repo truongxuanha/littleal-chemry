@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useCallback,
   useContext,
@@ -18,60 +18,63 @@ function EventProvider({ children }) {
     checkRecipes,
   } = useAppContext();
 
-  const [elementSelect, setElementSelect] = useState({});
+  const [elementSelect, setElementSelect] = useState(null);
   const [draggedElement, setDraggedElement] = useState(null);
   const [isSelect, setIsSelect] = useState(false);
   const sidebarRef = useRef(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const handleMouseDown = useCallback((item, e, type) => {
-    e.preventDefault();
+  const handleMouseDown = useCallback(
+    (item, e, type) => {
+      e.preventDefault();
 
-    setIsSelect(true);
-
-    setElementSelect({ ...item, type, select: true });
-    setDraggedElement(type === "main" ? item : null);
-    setPosition({ x: e.clientX, y: e.clientY });
-  }, []);
+      setIsSelect(true);
+      setElementSelect({ ...item, type });
+      setDraggedElement(type === "main" ? item : null);
+      setPosition({ x: e.clientX, y: e.clientY });
+    },
+    [setElementSelect, setDraggedElement]
+  );
 
   const handleMouseMove = useCallback(
     (e) => {
       if (!isSelect || !elementSelect) return;
 
-      setPosition({ x: e.clientX, y: e.clientY });
+      const newPosition = { x: e.clientX, y: e.clientY };
+      setPosition(newPosition);
 
       if (elementSelect.type === "main" && draggedElement) {
         setElementsMain((prev) =>
           prev.map((el) =>
             el.idElement === draggedElement.idElement
-              ? { ...el, position: { x: e.clientX, y: e.clientY } }
+              ? { ...el, position: newPosition }
               : el
           )
         );
       }
 
-      const newData = elementsMain.filter(
+      const nearbyElements = elementsMain.filter(
         (element) =>
           element.idElement !== draggedElement?.idElement &&
-          element.position.x - 40 <= position.x &&
-          position.x <= element.position.x + 40 &&
-          element.position.y - 40 <= position.y &&
-          position.y <= element.position.y + 40
+          Math.abs(element.position.x - newPosition.x) <= 40 &&
+          Math.abs(element.position.y - newPosition.y) <= 40
       );
-      setElementIsSelect({ element: elementSelect, position });
+
+      setElementIsSelect({ element: elementSelect, position: newPosition });
       setElementDuplicate(
-        newData.length > 0 ? newData[newData.length - 1] : null
+        nearbyElements.length > 0
+          ? nearbyElements[nearbyElements.length - 1]
+          : null
       );
     },
     [
       isSelect,
       elementSelect,
       draggedElement,
-      position,
       elementsMain,
-      setElementDuplicate,
-      setElementIsSelect,
       setElementsMain,
+      setElementIsSelect,
+      setElementDuplicate,
     ]
   );
 
@@ -90,7 +93,7 @@ function EventProvider({ children }) {
         setElementsMain((prev) =>
           prev.filter((item) => item.idElement !== draggedElement?.idElement)
         );
-      } else if (elementSelect && elementSelect.type === "sidebar") {
+      } else if (elementSelect?.type === "sidebar") {
         const newElementMain = {
           idElement: new Date().toISOString(),
           element: elementSelect,
@@ -133,9 +136,9 @@ function EventProvider({ children }) {
   );
 }
 
-const useEvent = function () {
+const useEvent = () => {
   const context = useContext(EventContext);
-  if (context === undefined) throw new Error("Error EventContext");
+  if (context === undefined) throw new Error("EventProvider Error");
   return context;
 };
 
