@@ -71,7 +71,7 @@ function EventProvider({ children }) {
       if (!isSelect) return;
 
       const rc = sidebarRef.current.getBoundingClientRect();
-      setPosition({ x: e.clientX, y: e.clientY });
+      // setPosition({ x: e.clientX, y: e.clientY });
       if (
         e.clientX >= rc.left &&
         e.clientX <= rc.right &&
