@@ -7,7 +7,9 @@ const Main = lazy(() => import("./components/main/Main"));
 
 function App() {
   const { handleMouseMove, handleMouseUp } = useEvent();
-
+  document.addEventListener("contextmenu", function (event) {
+    event.preventDefault();
+  });
   return (
     <div
       className="grid grid-cols-4 h-screen"

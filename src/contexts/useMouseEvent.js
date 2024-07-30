@@ -26,10 +26,10 @@ function EventProvider({ children }) {
 
   const handleMouseDown = useCallback((item, e, type) => {
     e.preventDefault();
-    console.log(item);
+
     setIsSelect(true);
 
-    setElementSelect({ ...item, type });
+    setElementSelect({ ...item, type, select: true });
     setDraggedElement(type === "main" ? item : null);
     setPosition({ x: e.clientX, y: e.clientY });
   }, []);
@@ -53,18 +53,26 @@ function EventProvider({ children }) {
       const newData = elementsMain.filter(
         (element) =>
           element.idElement !== draggedElement?.idElement &&
-          element.position.x - 20 <= position.x &&
-          position.x <= element.position.x + 20 &&
-          element.position.y - 20 <= position.y &&
-          position.y <= element.position.y + 20
+          element.position.x - 40 <= position.x &&
+          position.x <= element.position.x + 40 &&
+          element.position.y - 40 <= position.y &&
+          position.y <= element.position.y + 40
       );
-      // console.log(newData);
       setElementIsSelect({ element: elementSelect, position });
       setElementDuplicate(
         newData.length > 0 ? newData[newData.length - 1] : null
       );
     },
-    [isSelect, elementSelect, draggedElement, position, elementsMain]
+    [
+      isSelect,
+      elementSelect,
+      draggedElement,
+      position,
+      elementsMain,
+      setElementDuplicate,
+      setElementIsSelect,
+      setElementsMain,
+    ]
   );
 
   const handleMouseUp = useCallback(
@@ -72,7 +80,7 @@ function EventProvider({ children }) {
       if (!isSelect) return;
 
       const rc = sidebarRef.current.getBoundingClientRect();
-      // setPosition({ x: e.clientX, y: e.clientY });
+
       if (
         e.clientX >= rc.left &&
         e.clientX <= rc.right &&
@@ -88,7 +96,6 @@ function EventProvider({ children }) {
           element: elementSelect,
           position: position,
         };
-        // console.log(newElementMain);
         setElementsMain((prev) => [...prev, newElementMain]);
       }
       checkRecipes();
@@ -99,7 +106,15 @@ function EventProvider({ children }) {
       setPosition({ x: 0, y: 0 });
       setDraggedElement(null);
     },
-    [isSelect, elementSelect, draggedElement, position, checkRecipes]
+    [
+      isSelect,
+      elementSelect,
+      draggedElement,
+      position,
+      checkRecipes,
+      setElementDuplicate,
+      setElementsMain,
+    ]
   );
 
   const value = {

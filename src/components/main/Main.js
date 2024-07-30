@@ -2,8 +2,7 @@ import { useAppContext } from "../../contexts/useAppContext";
 import { useEvent } from "../../contexts/useMouseEvent";
 import data from "../../utils/data";
 import { useState, useEffect } from "react";
-import "./main.css"; // Đảm bảo bạn đã import tệp CSS
-
+import "./main.css";
 function Main() {
   const { handleMouseDown } = useEvent();
   const { elementsMain, elementsSideBar, handleClick } = useAppContext();
@@ -29,7 +28,7 @@ function Main() {
       {elementsMain.map((item, index) => (
         <div
           key={index}
-          className={`absolute z-101 fade-in ${
+          className={`absolute z-9 fade-in ${
             visibleItems.includes(index) ? "visible" : ""
           }`}
           style={{
@@ -52,7 +51,7 @@ function Main() {
         }`}
         onClick={() => handleFullScreen()}
       ></div>
-      <div className="absolute left-0 bottom-0 font-semibold text-2xl text-gray-400 p-3">
+      <div className="absolute left-0 bottom-0 font-light text-4xl text-gray-400 p-3">
         {elementsSideBar.length}/{data.length}
       </div>
       <div className="absolute right-0 bottom-0 font-semibold text-2xl p-3 text-gray-400 cursor-pointer">

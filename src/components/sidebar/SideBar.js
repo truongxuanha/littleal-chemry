@@ -19,24 +19,22 @@ function SideBar() {
 
   //Scroll
   const handleScroll = (item) => {
-    let elementId = "";
-    // console.log(item);
-    for (let i = 0; i < elementsSideBar.length; i++) {
-      const element = elementsSideBar[i];
-      // console.log(element.title[0]);
-      // console.log(element.title[0].toUpperCase());
-      if (element.title[0].toUpperCase() == item) {
-        console.log(element.title[0].toUpperCase() == item);
-        elementId = element.title;
-        break;
+    const element = elementsSideBar.find(
+      (el) => el.title[0].toUpperCase() === item.toUpperCase()
+    );
+    if (element) {
+      const elementId = element.title;
+      const targetElement = document.getElementById(elementId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+      } else {
+        return -1;
       }
-    }
-    if (elementId !== "") {
-      console.log(elementId);
-      const element = document.getElementById(elementId);
-      element.scrollIntoView({ behavior: "smooth" });
+    } else {
+      return -1;
     }
   };
+
   return (
     <>
       <div
@@ -44,7 +42,7 @@ function SideBar() {
         className="col-span-1 bg-[#f7f1e7] flex h-screen"
         ref={sidebarRef}
       >
-        <ul className="border-r border-white px-1 flex flex-col justify-around text-[13px] text-center text-gray-400 cursor-pointer">
+        <ul className="border-r border-white px-3 flex flex-col justify-around text-[13px] text-center text-gray-400 cursor-pointer">
           {alphabet.map((item) => (
             <li key={item} onClick={() => handleScroll(item)}>
               {item}
@@ -55,7 +53,7 @@ function SideBar() {
           {elementsSideBar.map((item) => (
             <div className="flex items-center" id={item.title} key={item.id}>
               <img
-                className="w-[56px]"
+                className="w-[49px]"
                 src={item.url}
                 alt=""
                 onMouseDown={(e) => handleMouseDown(item, e, "sidebar")}

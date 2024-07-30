@@ -1,4 +1,4 @@
-const dataCombine = [
+const recipes = [
   ["air ", "water ", " rain"],
   ["water", "water", "sea"],
   ["water", "sea", "ocean"],
@@ -25,4 +25,4 @@ const dataCombine = [
   ["plant", "plant", "garden"],
   ["sea", "sea", "ocean"],
 ];
-export default dataCombine;
+export default recipes;

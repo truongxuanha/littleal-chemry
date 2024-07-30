@@ -30,17 +30,10 @@ function AppProvider({ children }) {
 
   const checkRecipes = useCallback(() => {
     if (elementDuplicate && elementIsSelect) {
-      console.log(elementIsSelect);
-      // if (elementDuplicate.idElement === elementIsSelect.element.idElement)
-      //   return;
-      console.log(elementIsSelect);
-      console.log(elementDuplicate);
       const duplicate = elementDuplicate?.element?.title;
-      const select = elementIsSelect.element.title
-        ? elementIsSelect.element.title
-        : elementIsSelect.element.element.title;
-      // console.log("duplicate", duplicate);
-      // console.log("select", select);
+      const select = elementIsSelect?.element?.title
+        ? elementIsSelect?.element?.title
+        : elementIsSelect?.element?.element?.title;
       const listNewItems = recipes.filter(
         (title) =>
           (title[0] === duplicate && title[1] === select) ||

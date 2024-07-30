@@ -7,10 +7,13 @@
   opacity: 1;
 }
 .bgNotFull {
-  background-image: url("/src/assets/full.png");
+  background-image: url("/src/assets/notfull.png");
   background-repeat: no-repeat;
 }
 .bgFull {
   background-image: url("/src/assets/isfull.png");
   background-repeat: no-repeat;
+}
+img {
+  max-width: 90px;
 }
