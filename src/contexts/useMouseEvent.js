@@ -52,12 +52,13 @@ function EventProvider({ children }) {
 
       const newData = elementsMain.filter(
         (element) =>
+          element.idElement !== draggedElement?.idElement &&
           element.position.x - 20 <= position.x &&
           position.x <= element.position.x + 20 &&
           element.position.y - 20 <= position.y &&
           position.y <= element.position.y + 20
       );
-      console.log(newData);
+      // console.log(newData);
       setElementIsSelect({ element: elementSelect, position });
       setElementDuplicate(
         newData.length > 0 ? newData[newData.length - 1] : null
@@ -87,7 +88,7 @@ function EventProvider({ children }) {
           element: elementSelect,
           position: position,
         };
-        console.log(newElementMain);
+        // console.log(newElementMain);
         setElementsMain((prev) => [...prev, newElementMain]);
       }
       checkRecipes();
