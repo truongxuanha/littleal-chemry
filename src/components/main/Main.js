@@ -26,20 +26,20 @@ function Main() {
     }
   }
 
-  // function handleKeyDown(event) {
-  //   if (event.key === "F11") {
-  //     event.preventDefault();
-  //     if (document.fullscreenElement) {
-  //       document.exitFullscreen();
-  //     } else {
-  //       document.documentElement.requestFullscreen();
-  //     }
-  //   } else if (event.key === "Escape") {
-  //     if (document.fullscreenElement) {
-  //       document.exitFullscreen();
-  //     }
-  //   }
-  // }
+  function handleKeyDown(event) {
+    if (event.key === "F11") {
+      // event.preventDefault();
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen();
+      }
+    } else if (event.key === "Escape") {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    }
+  }
 
   useEffect(() => {
     const handleChange = () => {
@@ -56,8 +56,8 @@ function Main() {
     <div
       id="main"
       className="col-span-3 relative h-screen overflow-hidden border-none outline-none"
-      // tabIndex={-1}
-      // onKeyDown={handleKeyDown}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
     >
       {elementsMain.map((item, index) => (
         <div
