@@ -42,7 +42,7 @@ function SideBar() {
         className="col-span-1 bg-[#f7f1e7] flex h-screen"
         ref={sidebarRef}
       >
-        <ul className="border-r border-white px-3 flex flex-col justify-around text-[13px] text-center text-gray-400 cursor-pointer">
+        <ul className="border-r border-white px-3 flex flex-col justify-around text-[13px] text-center text-gray-400 cursor-pointer overflow-auto">
           {alphabet.map((item) => (
             <li key={item} onClick={() => handleScroll(item)}>
               {item}

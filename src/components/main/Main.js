@@ -3,28 +3,62 @@ import { useEvent } from "../../contexts/useMouseEvent";
 import data from "../../utils/data";
 import { useState, useEffect } from "react";
 import "./main.css";
+
 function Main() {
   const { handleMouseDown } = useEvent();
   const { elementsMain, elementsSideBar, handleClick } = useAppContext();
   const [visibleItems, setVisibleItems] = useState([]);
   const [full, setFull] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisibleItems(elementsMain.map((_, index) => index));
-    }, 100); // Thay đổi thời gian trễ nếu cần
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [elementsMain]);
-  function handleFullScreen() {
-    setFull((full) => !full);
+
+  function toggleFullScreen() {
     if (document.fullscreenElement) {
       document.exitFullscreen();
     } else {
       document.documentElement.requestFullscreen();
     }
   }
+
+  // function handleKeyDown(event) {
+  //   if (event.key === "F11") {
+  //     event.preventDefault();
+  //     if (document.fullscreenElement) {
+  //       document.exitFullscreen();
+  //     } else {
+  //       document.documentElement.requestFullscreen();
+  //     }
+  //   } else if (event.key === "Escape") {
+  //     if (document.fullscreenElement) {
+  //       document.exitFullscreen();
+  //     }
+  //   }
+  // }
+
+  useEffect(() => {
+    const handleChange = () => {
+      setFull(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleChange);
+    };
+  }, []);
+
   return (
-    <div id="main" className="col-span-3 relative h-screen overflow-hidden">
+    <div
+      id="main"
+      className="col-span-3 relative h-screen overflow-hidden border-none outline-none"
+      // tabIndex={-1}
+      // onKeyDown={handleKeyDown}
+    >
       {elementsMain.map((item, index) => (
         <div
           key={index}
@@ -46,10 +80,10 @@ function Main() {
         </div>
       ))}
       <div
-        className={` absolute w-7 h-7 cursor-pointer top-3 left-3 ${
+        className={`absolute w-7 h-7 cursor-pointer top-3 left-3 ${
           full ? "bgFull" : "bgNotFull"
         }`}
-        onClick={() => handleFullScreen()}
+        onClick={toggleFullScreen}
       ></div>
       <div className="absolute left-0 bottom-0 font-light text-4xl text-gray-400 p-3">
         {elementsSideBar.length}/{data.length}
